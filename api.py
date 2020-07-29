@@ -1,4 +1,4 @@
-from flask import Flask,request,jsonify
+from flask import Flask, request, jsonify
 from flask_cors import CORS
 import torch
 from transformers import BertTokenizer, BertForQuestionAnswering
@@ -50,11 +50,11 @@ def answer_question(question_text, document_text):
 
 @app.route("/",methods=['POST'])
 def predict():
-    question = request.data
-    paragraph = request.data
+    question = request.form.get('question')
+    paragraph = request.form.get('paragraph')
     response = answer_question(question, paragraph)
+    return jsonify({'result': response})
 
-    return jsonify({"result": response})
 
 if __name__ == "__main__":
     app.run(debug=True, port=8000)
